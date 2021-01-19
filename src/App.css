@@ -1,3 +1,39 @@
 .App {
   text-align: center;
 }
+
+.navs {
+  margin: 0 10px;
+  text-decoration: none;
+}
+
+.padding {
+  padding: 20px;
+}
+
+.margin {
+  margin: 20px;
+}
+
+.welcome {
+  width: 100%;
+  height: 650px;
+  background: url("https://www.ntaskmanager.com/wp-content/uploads/2019/05/best-pomodoro-apps-blog-header-main-1.png")
+    no-repeat center fixed;
+}
+
+.form {
+  width: 50%;
+}
+
+@media only screen and (max-width: 600px) {
+  .padding {
+    padding: 10px;
+  }
+  .margin {
+    margin: 10px;
+  }
+  .form {
+    width: 90%;
+  }
+}

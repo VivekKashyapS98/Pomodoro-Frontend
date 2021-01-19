@@ -1,4 +1,3 @@
-import { stat } from "fs";
 import { SET_USER } from "../actionTypes";
 
 const userAuth = {
@@ -6,7 +5,10 @@ const userAuth = {
   user: {},
 };
 
-export default (state = userAuth, action) => {
+const user = (
+  state = userAuth,
+  action: { type: String; payload: { user: {} } }
+) => {
   switch (action.type) {
     case SET_USER:
       return {
@@ -17,3 +19,5 @@ export default (state = userAuth, action) => {
       return state;
   }
 };
+
+export default user;
