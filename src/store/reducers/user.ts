@@ -1,4 +1,4 @@
-import { SET_USER } from "../actionTypes";
+import { REMOVE_USER, SET_USER } from "../actionTypes";
 
 const userAuth = {
   isAuthenticated: false,
@@ -14,6 +14,11 @@ const user = (
       return {
         isAuthenticated: true,
         user: action.payload.user,
+      };
+    case REMOVE_USER:
+      return {
+        isAuthenticated: false,
+        user: {},
       };
     default:
       return state;

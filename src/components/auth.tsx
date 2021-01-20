@@ -9,7 +9,7 @@ interface Props {
   setUserAuth: any;
 }
 
-function Auth({ type }: Props) {
+function Auth({ type, setUserAuth }: Props) {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -19,6 +19,7 @@ function Auth({ type }: Props) {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     if (type === "signup") {
       setUserAuth(type, { username: name, email, password })
         .then(() => history.push("/home"))
@@ -71,8 +72,8 @@ function Auth({ type }: Props) {
               type="email"
               name="email"
               className="form-control"
-              placeholder="Username"
-              aria-label="Username"
+              placeholder="Email"
+              aria-label="email"
               value={email}
               aria-describedby="addon-wrapping"
               onChange={(e) => handleChange(e)}
@@ -86,8 +87,8 @@ function Auth({ type }: Props) {
               type="password"
               name="password"
               className="form-control"
-              placeholder="Username"
-              aria-label="Username"
+              placeholder="Password"
+              aria-label="password"
               value={password}
               aria-describedby="addon-wrapping"
               onChange={(e) => handleChange(e)}

@@ -1,4 +1,3 @@
-import { SET_TASK } from "../actionTypes";
 import { SET_TASK, REMOVE_TASK } from "../actionTypes";
 
 const defaultTask = {
