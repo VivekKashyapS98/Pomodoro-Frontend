@@ -22,7 +22,7 @@
     "typescript": "^4.1.3",
     "web-vitals": "^0.2.4"
   },
-  "proxy": "http://localhost:8081",
+  "proxy": "https://pomodoro-full-stack-app.herokuapp.com/",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

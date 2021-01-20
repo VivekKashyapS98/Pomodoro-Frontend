@@ -8,9 +8,9 @@ import Welcome from "./welcome";
 export default function Routes() {
   const history = useHistory();
 
-  if (localStorage.jwtToken) {
-    history.push("/home");
-  } else history.push("/");
+  if (!localStorage.jwtToken) {
+    history.push("/");
+  }
 
   return (
     <div>

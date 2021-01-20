@@ -12,7 +12,7 @@ export function apiCall(method: string, path: string, data: any) {
   return new Promise((resolve, reject) => {
     if (method === "get") {
       axios
-        .get(path, data)
+        .get(path)
         .then((res: { data: unknown }) => resolve(res.data))
         .catch((err: { response: { data: { error: any } } }) =>
           reject(err.response.data.error)
@@ -20,6 +20,13 @@ export function apiCall(method: string, path: string, data: any) {
     } else if (method === "post") {
       axios
         .post(path, data)
+        .then((res: { data: unknown }) => resolve(res.data))
+        .catch((err: { response: { data: { error: any } } }) =>
+          reject(err.response.data.error)
+        );
+    } else if (method === "delete") {
+      axios
+        .delete(path)
         .then((res: { data: unknown }) => resolve(res.data))
         .catch((err: { response: { data: { error: any } } }) =>
           reject(err.response.data.error)

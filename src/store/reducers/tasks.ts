@@ -1,4 +1,4 @@
-import { SET_TASK, REMOVE_TASK } from "../actionTypes";
+import { SET_TASKS, REMOVE_TASK } from "../actionTypes";
 
 const defaultTask = {
   tasks: [],
@@ -9,7 +9,7 @@ const tasks = (
   action: { type: any; payload: { tasks: any } }
 ) => {
   switch (action.type) {
-    case SET_TASK:
+    case SET_TASKS:
       return {
         tasks: action.payload.tasks,
       };
