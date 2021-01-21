@@ -2,14 +2,14 @@ import React from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { removeTask } from "../store/actions/actions";
-import { runTask } from "../store/actions/actions";
+import { setTask } from "../store/actions/actions";
 
-function TaskCard({ task, userID, reload, runTask }: any) {
+function TaskCard({ task, userID, reload, setTask }: any) {
   const history = useHistory();
 
   const setRunTask = () => {
-    runTask(task._id);
-    console.log("New task has been started!");
+    setTask(task);
+    console.log("New task has been started!", task);
   };
 
   const removeTaskHelper = () => {
@@ -81,7 +81,7 @@ function TaskCard({ task, userID, reload, runTask }: any) {
 const mapStateToProps = (state: any) => ({
   user: state.user.user,
   tasks: state.tasks.tasks,
-  running: state.running.taskID,
+  running: state.running.task,
 });
 
-export default connect(mapStateToProps, { runTask })(TaskCard);
+export default connect(mapStateToProps, { setTask })(TaskCard);

@@ -79,11 +79,11 @@ export const setComplete = (id: any, task_id: any, userData: any) => {
   });
 };
 
-export const runTask = (task_id: any) => (dispatch: any) => {
+export const setTask = (task: any) => (dispatch: any) => {
   dispatch({
     type: RUN_TASK,
     payload: {
-      taskID: task_id,
+      task,
     },
   });
 };

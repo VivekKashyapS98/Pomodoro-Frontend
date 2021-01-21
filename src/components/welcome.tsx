@@ -1,7 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 export default function Welcome() {
+  const history = useHistory();
+
+  if (localStorage.jwtToken) {
+    history.push("/home");
+  }
   return (
     <React.Fragment>
       <header className="padding d-flex flex-row justify-content-between">

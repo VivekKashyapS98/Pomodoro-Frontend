@@ -1,45 +1,99 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
+import TimerButtons from "./timerButtons";
+import { setTask, setComplete } from "../store/actions/actions";
 
-function PomodoroTimer({ running, tasks }: any) {
-  const [prev, setPrev] = useState<any>(0);
-  const [sec, setSec] = useState<any>(0);
-  const [min, setMin] = useState<any>(0);
-  const [time, setTime] = useState<any>(`${min}:${sec}`);
+function PomodoroTimer({ user, running, tasks }: any) {
+  const [task, setTask] = useState<any>({});
+  const [sec, setSec] = useState<number>(1500);
+  const [play, setPlay] = useState<boolean>(false);
 
-  const taskTitle = tasks.find((task: { _id: any }) => task._id === running);
+  let tasksToBeDone = tasks.filter((item: any) =>
+    item.completedAt ? false : true
+  );
+
+  const formatTime = (timeInSec: number) => {
+    let min = Math.floor(timeInSec / 60);
+    let sec = timeInSec - 60 * min;
+    return `${min}:${sec}`;
+  };
+
+  const shuffleArray = () => {
+    let array = [...tasksToBeDone];
+    var currentIndex = array.length,
+      temporaryValue,
+      randomIndex;
+
+    while (0 !== currentIndex) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+    console.log(array);
+    tasksToBeDone = array;
+    setTask(tasksToBeDone[0]);
+    setSec(1500);
+    setPlay(true);
+  };
 
   useEffect(() => {
-    if (sec === 60) {
-      setMin(min + 1);
-      setSec(0);
-      setTime(`${min}:${sec}`);
-    } else {
-      setSec(sec + 1);
-      setTime(`${min}:${sec}`);
+    let timeInterval = setTimeout(() => {
+      if (play) {
+        if (sec !== 0) {
+          setSec(sec - 1);
+        } else
+          setComplete(user.id, task._id, { completedAt: new Date() })
+            .then((data) => {
+              console.log(data);
+              alert("Time for a break!");
+              setTimeout(() => {
+                tasksToBeDone = tasks.filter((item: any) =>
+                  item.completedAt ? false : true
+                );
+              }, 300000);
+            })
+            .catch((err) => console.log(err));
+      }
+    }, 1000);
+    if (running.task.title !== task.title) {
+      setTask(running.task);
+      setSec(1500);
+      setPlay(true);
     }
-    setSec(sec + 1);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
+    return () => {
+      clearTimeout(timeInterval);
+    };
+  }, [play, running.task, sec, task._id, task.title, user.id]);
+
+  const start = () => {
+    setTask(tasksToBeDone[0]);
+    setSec(1500);
+    setPlay(true);
+    console.log("Tasks pending: ", tasksToBeDone);
+  };
+
+  const stop = () => {
+    setSec(1500);
+    setPlay(false);
+    setTask({});
+  };
 
   return (
-    <div>
-      <header>
-        <nav className="padding d-flex flex-row justify-content-between">
-          <button
-            className="navs btn btn-light"
-            onClick={() => {
-              setMin(0);
-              setSec(0);
-            }}
-          >
-            START
-          </button>
-          <button className="navs btn btn-light">STOP</button>
-        </nav>
-      </header>
-      {taskTitle ? <h2>Task: {taskTitle.title}</h2> : null}
-      <h2>{time}</h2>
+    <div
+      style={{ width: "100%" }}
+      className="d-flex flex-column flex-wrap justify-content-center align-items-center"
+    >
+      <h2>{task.title}</h2>
+      <h1 className="timer">{formatTime(sec)}</h1>
+      <TimerButtons
+        start={() => start()}
+        stop={() => stop()}
+        shuffle={() => shuffleArray()}
+      />
     </div>
   );
 }
@@ -47,7 +101,9 @@ function PomodoroTimer({ running, tasks }: any) {
 const mapStateToProps = (state: any) => ({
   user: state.user.user,
   tasks: state.tasks.tasks,
-  running: state.running.taskID,
+  running: state.running,
 });
 
-export default connect(mapStateToProps)(PomodoroTimer);
+export default connect(mapStateToProps, { setTask, setComplete })(
+  PomodoroTimer
+);
