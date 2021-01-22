@@ -19,7 +19,7 @@ function Task({ user, tasks }: Props) {
     setFlag(flag + 1);
   };
 
-  if (task.notes.length > 0) {
+  if (task && task.notes.length > 0) {
     notes = task.notes.map((item: React.ReactNode) => {
       return (
         <li className="alert alert-light" role="alert">
@@ -33,8 +33,8 @@ function Task({ user, tasks }: Props) {
     <div className="d-flex flex-column justify-content-center align-items-center">
       <h2>{task.title}</h2>
       <p>{task.description}</p>
-      <h5>Created At: {new Date(task.createdAt).toLocaleString("en-US")}</h5>
-      <h5>Finished At: {new Date(task.createdAt).toLocaleString("en-US")}</h5>
+      <h5>Created At: {task.createdAt.toLocaleString("en-US")}</h5>
+      <h5>Finished At: {task.completedAt ? task.completedAt.toLocaleString("en-US") : "pending"}</h5>
       <br />
       <div className="form">
         <div className="margin padding">

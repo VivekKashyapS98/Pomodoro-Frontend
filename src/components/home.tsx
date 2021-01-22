@@ -9,7 +9,7 @@ function Home({ fetchTasks, user }: any) {
   const [flag, setFlag] = useState(0);
   const [tasks, setTasks] = useState<any>([]);
 
-  let listTasks = (
+  let listTasks: any = (
     <div className="spinner-border text-primary" role="status">
       <span className="visually-hidden">Loading...</span>
     </div>
@@ -17,7 +17,11 @@ function Home({ fetchTasks, user }: any) {
 
   useEffect(() => {
     fetchTasks(user.id)
-      .then((data: React.SetStateAction<never[]>) => setTasks(data))
+      .then((data: React.SetStateAction<never[]>) => {
+        if(data.length > 0) {
+          setTasks(data);
+        } else setTasks("nothing");
+      })
       .catch((err: any) => console.log(err));
   }, [fetchTasks, flag, user.id]);
 
@@ -36,6 +40,8 @@ function Home({ fetchTasks, user }: any) {
         />
       );
     });
+  } else if(tasks === "nothing") {
+    listTasks = null;
   }
 
   return (
