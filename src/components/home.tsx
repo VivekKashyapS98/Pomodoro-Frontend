@@ -18,9 +18,9 @@ function Home({ fetchTasks, user }: any) {
   useEffect(() => {
     fetchTasks(user.id)
       .then((data: React.SetStateAction<never[]>) => {
-        if(data.length > 0) {
+        if (data.length > 0) {
           setTasks(data);
-        } else setTasks("nothing");
+        } else setTasks([]);
       })
       .catch((err: any) => console.log(err));
   }, [fetchTasks, flag, user.id]);
@@ -29,7 +29,7 @@ function Home({ fetchTasks, user }: any) {
     setFlag(flag + 1);
   };
 
-  if (tasks.length > 1) {
+  if (tasks.length > 0) {
     listTasks = tasks.map((item: any, index: number) => {
       return (
         <TaskCard
@@ -40,7 +40,7 @@ function Home({ fetchTasks, user }: any) {
         />
       );
     });
-  } else if(tasks === "nothing") {
+  } else {
     listTasks = null;
   }
 
